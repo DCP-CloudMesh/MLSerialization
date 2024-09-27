@@ -2,7 +2,7 @@ import sys
 import socket
 import torch
 import torch.nn as nn
-from simpleNN import SimpleNN
+from models import SimpleNN, SimpleResNet
 from serialization import serialize_model_with_pickle, deserialize_model_with_pickle
 
 HOST = "127.0.0.1"  # Localhost
