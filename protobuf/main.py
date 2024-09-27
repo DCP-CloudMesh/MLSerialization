@@ -31,7 +31,7 @@ def main():
     new_model = SimpleNN(input_size, output_size)
 
     # Deserialize the model and load the weights
-    deserialize_model_with_pickle("bin/pickled_model.bin", new_model)
+    deserialize_model_with_pickle(model=new_model, filename="bin/pickled_model.bin")
 
     # Compare the model's weights
     for param1, param2 in zip(model.parameters(), new_model.parameters()):

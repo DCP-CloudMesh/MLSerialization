@@ -2,7 +2,7 @@ import pickle
 import model_pb2
 
 
-def serialize_model_with_pickle(model, model_name, filename):
+def serialize_model_with_pickle(model, model_name, filename=None):
     # Step 1: Pickle the model's state_dict (weights)
     pickled_weights = pickle.dumps(model.state_dict())
 
@@ -13,16 +13,21 @@ def serialize_model_with_pickle(model, model_name, filename):
 
     # Step 3: Serialize the protobuf message to a binary file
     serialized_model = model_pb.SerializeToString()
-    with open(filename, "wb") as f:
-        f.write(serialized_model)
+    if filename:
+        with open(filename, "wb") as f:
+            f.write(serialized_model)
 
     return serialized_model
 
 
-def deserialize_model_with_pickle(filename, model):
+def deserialize_model_with_pickle(model, serialized_model=None, filename=None):
     # Step 1: Read the serialized protobuf data from the file
-    with open(filename, "rb") as f:
-        serialized_model = f.read()
+    if (not serialized_model and not filename) or (serialized_model and filename):
+        raise ValueError("Either serialized_model or filename must be provided.")
+
+    if filename:
+        with open(filename, "rb") as f:
+            serialized_model = f.read()
 
     # Step 2: Parse the protobuf message
     model_pb = model_pb2.Model()
