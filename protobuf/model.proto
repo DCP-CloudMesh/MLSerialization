@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Model {
+    string name = 1;          // Model name
+    bytes pickled_weights = 2; // Pickled binary data of the model's weights
+}
