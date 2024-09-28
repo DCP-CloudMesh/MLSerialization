@@ -25,13 +25,13 @@ def main():
         optimizer.step()
 
     # Serialize the model using pickle and Protobuf
-    serialize_model_with_pickle(model, "Pickled PyTorch Model", "bin/pickled_model.bin")
+    serialize_model_with_pickle(model, "Pickled PyTorch Model", "bin/pickled_model.xz")
 
     # Create a new instance of the model
     new_model = SimpleNN(input_size, output_size)
 
     # Deserialize the model and load the weights
-    deserialize_model_with_pickle(model=new_model, filename="bin/pickled_model.bin")
+    deserialize_model_with_pickle(model=new_model, filename="bin/pickled_model.xz")
 
     # Compare the model's weights
     for param1, param2 in zip(model.parameters(), new_model.parameters()):
@@ -68,7 +68,7 @@ def main_resnet():
     model = model.to("cpu")
     # Serialize the model using pickle and Protobuf
     serialize_model_with_pickle(
-        model, "Pickled PyTorch Model", "bin/pickled_resnet_model.bin"
+        model, "Pickled PyTorch Model", "bin/pickled_resnet_model.xz"
     )
 
     # Create a new instance of the model
@@ -76,7 +76,7 @@ def main_resnet():
 
     # Deserialize the model and load the weights
     deserialize_model_with_pickle(
-        model=new_model, filename="bin/pickled_resnet_model.bin"
+        model=new_model, filename="bin/pickled_resnet_model.xz"
     )
 
     # Compare the model's weights

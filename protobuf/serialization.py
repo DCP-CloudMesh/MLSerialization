@@ -1,10 +1,12 @@
 import pickle
 import model_pb2
+import blosc
 
 
 def serialize_model_with_pickle(model, model_name, filename=None):
     # Step 1: Pickle the model's state_dict (weights)
     pickled_weights = pickle.dumps(model.state_dict())
+    pickled_weights = blosc.compress(pickled_weights)
 
     # Step 2: Create a Model protobuf message
     model_pb = model_pb2.Model()
@@ -36,7 +38,7 @@ def deserialize_model_with_pickle(model, serialized_model=None, filename=None):
     print(f"Model Name: {model_pb.name}")
 
     # Step 3: Unpickle the weights and load them into the PyTorch model
-    state_dict = pickle.loads(model_pb.pickled_weights)
+    state_dict = pickle.loads(blosc.decompress(model_pb.pickled_weights))
     model.load_state_dict(state_dict)
     print("Model weights loaded successfully.")
 
